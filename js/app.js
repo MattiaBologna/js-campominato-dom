@@ -8,11 +8,12 @@ const playButtonDOMElement = document.getElementById('play__button')
 
 playButtonDOMElement.addEventListener('click', function() {
     
-    // funzione che restituisce la size 
+    // prendere la size FUNCTION
     const size = sizeSelector()
 
-    // generare l'array delle bombe 
+    // generare l'array delle bombe FUNCTION
     const bombsArray = generateBombsArray(size)
+    console.log(bombsArray);
 
      // recuperare il container 
      const gridContainerDOMElement = document.querySelector('.grid__container')
@@ -36,6 +37,8 @@ playButtonDOMElement.addEventListener('click', function() {
          gridContainerDOMElement.classList.add('grid__easy')
      }
  
+     // points counter 
+     let points = 0
      
      // generare le celle 
      for (let i = 0; i < numberOfCells; i++) {
@@ -50,15 +53,21 @@ playButtonDOMElement.addEventListener('click', function() {
          // aggiungere le celle all'html
          gridContainerDOMElement.append(cellsDOMELement)
          // console.log(cellsDOMELement);
-         
-         // aggiungere/rimuovere la classe bg__blue al click sulla cella 
-         cellsDOMELement.addEventListener('click', function() {
-             isBomb = checkIfBomb(cellNumber, bombsArray)
 
+
+         // al click sulla cella controllare se è una bomba e colorarla di conseguenza
+         cellsDOMELement.addEventListener('click', function() {
+             
+             
+             // check if bomb FUNCTION
+             isBomb = checkIfBomb(cellNumber, bombsArray)
+             
              if (isBomb) {
-                this.classList.add('bg__red')
-             } else {
-                this.classList.add('bg__blue')
+                    this.classList.add('bg__red')
+                    endGame(points)
+                } else {
+                    this.classList.add('bg__blue')
+                    points += 1
              }
          })
      }
@@ -136,7 +145,6 @@ function generateBombsArray(size) {
 
 function checkIfBomb(cellNumber, bombsArray) {
     console.log(cellNumber);
-    console.log(bombsArray)
 
     // Restituisci vero se la casella è una bomba 
     let isBomb = false 
@@ -153,7 +161,12 @@ function checkIfBomb(cellNumber, bombsArray) {
     // } else {
     //     console.log('non è bomba');
     // }
-
-    
     return isBomb
+}
+
+
+// FUNCTION END GAME 
+
+function endGame(points) {
+    alert(`Hai fatto ${points} punti`)
 }
