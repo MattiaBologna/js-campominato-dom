@@ -63,6 +63,7 @@ playButtonDOMElement.addEventListener('click', function() {
                 // se la cella è una bomba, colorala di rosso e mostra l'alert con i punti
                 this.classList.add('bg__red')
                 bombEndGame(points)
+                showBombs(cellNumber, bombsArray)
             } else {
                 // se la cella non è una bomba (e non è stata già cliccata) colorala di blu e aggiungi un punto 
                 if (this.classList.contains('bg__blue')) {
@@ -177,3 +178,14 @@ function bombEndGame(points) {
     alert(`Hai perso! Hai fatto ${points} punti`)
 }
 
+// FUNCTION SHOW BOMBS
+
+function showBombs(cellNumber, bombsArray) {
+
+    // for (let i = 0; i < bombsArray.length; i++) {
+    //     if (cellNumber === bombsArray[i]) {
+    //         cellsDOMELement.classList.add('bg__red')
+    //     }
+    // }
+   
+}
