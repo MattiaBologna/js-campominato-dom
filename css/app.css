@@ -95,6 +95,10 @@ a {
     background-color: cornflowerblue;
 }
 
+.bg__red {
+    background-color: red;
+}
+
 .grid__container.grid__hard {
     grid-template-columns: repeat(10, 1fr);
 }

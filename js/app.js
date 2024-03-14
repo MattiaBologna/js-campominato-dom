@@ -52,9 +52,14 @@ playButtonDOMElement.addEventListener('click', function() {
          // console.log(cellsDOMELement);
          
          // aggiungere/rimuovere la classe bg__blue al click sulla cella 
-         cellsDOMELement.addEventListener('click', function(){
-             this.classList.toggle('bg__blue')
-             checkIfBomb(cellNumber, bombsArray)
+         cellsDOMELement.addEventListener('click', function() {
+             isBomb = checkIfBomb(cellNumber, bombsArray)
+
+             if (isBomb) {
+                this.classList.add('bg__red')
+             } else {
+                this.classList.add('bg__blue')
+             }
          })
      }
 
@@ -143,9 +148,12 @@ function checkIfBomb(cellNumber, bombsArray) {
         }
     }
 
-    if (isBomb) {
-        console.log('è una bomba');
-    } else {
-        console.log('non è bomba');
-    }
+    // if (isBomb) {
+    //     console.log('è una bomba');
+    // } else {
+    //     console.log('non è bomba');
+    // }
+
+    
+    return isBomb
 }
