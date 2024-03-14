@@ -1,15 +1,18 @@
 // creare la griglia nell'html al click su gioca
-    // recuperare il bottone gioca e aggiungere un event listener
+// recuperare il bottone gioca e aggiungere un event listener
 
 const playButtonDOMElement = document.getElementById('play__button')
 // console.log(playButtonDOMElement);
 
-// GAME FUNCTIONING
+                                                            // GAME FUNCTIONING
 
 playButtonDOMElement.addEventListener('click', function() {
-
+    
     // funzione che restituisce la size 
     const size = sizeSelector()
+
+    // generare l'array delle bombe 
+    const bombsArray = generateBombsArray(size)
 
      // recuperare il container 
      const gridContainerDOMElement = document.querySelector('.grid__container')
@@ -51,14 +54,15 @@ playButtonDOMElement.addEventListener('click', function() {
          // aggiungere/rimuovere la classe bg__blue al click sulla cella 
          cellsDOMELement.addEventListener('click', function(){
              this.classList.toggle('bg__blue')
-             console.log(cellNumber);
+             checkIfBomb(cellNumber, bombsArray)
          })
      }
 
-    // generare l'array delle bombe 
-    generateBombsArray(size)
 
 })
+
+
+                                                                   // FUNCTIONS
 
 // FUNCTION SIZE SELECTOR
 
@@ -123,4 +127,25 @@ function generateBombsArray(size) {
 // se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso.
 // Altrimenti la cella cliccata si colora di azzurro e l’utente può continuare a cliccare sulle altre celle.
 
-  
+// FUNCTION CHECK IF BOMB
+
+function checkIfBomb(cellNumber, bombsArray) {
+    console.log(cellNumber);
+    console.log(bombsArray)
+
+    // Restituisci vero se la casella è una bomba 
+    let isBomb = false 
+
+    // per ogni elemento di bombsArray 
+    for (let i = 0; i < bombsArray.length; i++) {
+        if (cellNumber === bombsArray[i]) {
+            isBomb = true
+        }
+    }
+
+    if (isBomb) {
+        console.log('è una bomba');
+    } else {
+        console.log('non è bomba');
+    }
+}
