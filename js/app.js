@@ -15,69 +15,69 @@ playButtonDOMElement.addEventListener('click', function() {
     const bombsArray = generateBombsArray(size)
     console.log(bombsArray);
 
-     // recuperare il container 
-     const gridContainerDOMElement = document.querySelector('.grid__container')
-     // console.log(gridContainerDOMElement);
+    // recuperare il container 
+    const gridContainerDOMElement = document.querySelector('.grid__container')
+    // console.log(gridContainerDOMElement);
  
-     // rimuovere eventuali griglie precedenti
-     gridContainerDOMElement.innerHTML = ''
-     playButtonDOMElement.innerHTML = 'Restart'
+    // rimuovere eventuali griglie precedenti
+    gridContainerDOMElement.innerHTML = ''
+    playButtonDOMElement.innerHTML = 'Restart'
  
-     const numberOfCells = size ** 2;
+    const numberOfCells = size ** 2;
  
-     // aggiungere la classe relativa alla difficoltà corrente per scegliere quante colonne avere
-     if (size === 10) {
+    // aggiungere la classe relativa alla difficoltà corrente per scegliere quante colonne avere
+    if (size === 10) {
          gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
          gridContainerDOMElement.classList.add('grid__hard')
-     } else if (size === 9) {
+    } else if (size === 9) {
          gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
          gridContainerDOMElement.classList.add('grid__normal')
-     } else if (size === 7) {
+    } else if (size === 7) {
          gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
          gridContainerDOMElement.classList.add('grid__easy')
-     }
+    }
  
-     // points counter 
-     let points = 0
+    // points counter 
+    let points = 0
      
-     // generare le celle 
-     for (let i = 0; i < numberOfCells; i++) {
-         // segnare il numero delle celle
-         const cellNumber = i + 1 
-         const cellsDOMELement = document.createElement('div')
-         // aggiungere alle celle create la classe cell e il numero della cella 
-         cellsDOMELement.className = 'cell'
-         cellsDOMELement.innerHTML = cellNumber
-         
-         
-         // aggiungere le celle all'html
-         gridContainerDOMElement.append(cellsDOMELement)
-         // console.log(cellsDOMELement);
-
-
-         // al click sulla cella controllare se è una bomba e colorarla di conseguenza
-         cellsDOMELement.addEventListener('click', function() {
-             
-             
-             // check if bomb FUNCTION
-             isBomb = checkIfBomb(cellNumber, bombsArray)
-             
-             if (isBomb) {
-                    // se la cella è una bomba, colorala di rossa e mostra l'alert con i punti
-                    this.classList.add('bg__red')
-                    endGame(points)
+    // generare le celle 
+    for (let i = 0; i < numberOfCells; i++) {
+        // segnare il numero delle celle
+        const cellNumber = i + 1 
+        const cellsDOMELement = document.createElement('div')
+        // aggiungere alle celle create la classe cell e il numero della cella 
+        cellsDOMELement.className = 'cell'
+        cellsDOMELement.innerHTML = cellNumber
+        
+        
+        // aggiungere le celle all'html
+        gridContainerDOMElement.append(cellsDOMELement)
+        // console.log(cellsDOMELement);
+        
+        // al click sulla cella controllare se è una bomba e colorarla di conseguenza
+        cellsDOMELement.addEventListener('click', function() { 
+            // check if bomb FUNCTION
+            isBomb = checkIfBomb(cellNumber, bombsArray)
+        
+            if (isBomb) {
+                // se la cella è una bomba, colorala di rosso e mostra l'alert con i punti
+                this.classList.add('bg__red')
+                bombEndGame(points)
+            } else {
+                // se la cella non è una bomba (e non è stata già cliccata) colorala di blu e aggiungi un punto 
+                if (this.classList.contains('bg__blue')) {
+                    points += 0
                 } else {
-                    // se non è una bomba (e non è stata già cliccata) colorala di blu e aggiungi un punto 
-                    if (this.classList.contains('bg__blue')) {
-                        points += 0
-                    } else {
-                        this.classList.add('bg__blue')
-                        points += 1
+                    this.classList.add('bg__blue')
+                    points += 1
+                    if (points === (size ** 2) - 16) {
+                        alert('Hai vinto');
                     }
-             }
-         })
-     }
-
+                }
+            }
+            
+        })
+    }
 
 })
 
@@ -173,6 +173,7 @@ function checkIfBomb(cellNumber, bombsArray) {
 
 // FUNCTION END GAME 
 
-function endGame(points) {
-    alert(`Hai fatto ${points} punti`)
+function bombEndGame(points) {
+    alert(`Hai perso! Hai fatto ${points} punti`)
 }
+
