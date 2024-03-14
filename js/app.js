@@ -31,6 +31,18 @@ playButtonDOMElement.addEventListener('click', function() {
 
     const numberOfCells = size ** 2;
 
+    // aggiungere la classe relativa alla difficoltà corrente per scegliere quante colonne avere
+    if (size === 10) {
+        gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
+        gridContainerDOMElement.classList.add('grid__hard')
+    } else if (size === 9) {
+        gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
+        gridContainerDOMElement.classList.add('grid__normal')
+    } else if (size === 7) {
+        gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
+        gridContainerDOMElement.classList.add('grid__easy')
+    }
+
     // generare le celle 
     for (let i = 0; i < numberOfCells; i++) {
         // segnare il numero delle celle
@@ -40,17 +52,6 @@ playButtonDOMElement.addEventListener('click', function() {
         cellsDOMELement.className = 'cell'
         cellsDOMELement.innerHTML = cellNumber
 
-        // aggiungere la classe relativa alla difficoltà corrente per scegliere quante colonne avere
-        if (size === 10) {
-            gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
-            gridContainerDOMElement.classList.add('grid__hard')
-        } else if (size === 9) {
-            gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
-            gridContainerDOMElement.classList.add('grid__normal')
-        } else if (size === 7) {
-            gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
-            gridContainerDOMElement.classList.add('grid__easy')
-        }
 
         // aggiungere le celle all'html
         gridContainerDOMElement.append(cellsDOMELement)
@@ -64,3 +65,30 @@ playButtonDOMElement.addEventListener('click', function() {
     }
 })
 
+// Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
+// Attenzione: nella stessa cella può essere posizionata al massimo una bomba, perciò nell’array delle bombe non potranno esserci due numeri uguali.
+
+const bombsArray = generateBombsArray(8)
+
+function generateBombsArray(size) {
+    // creare array bombe da returnare
+    let bombsArray = [];
+
+    // creare 16 numeri casuali in base alla dimensione della griglia che non si ripetano e pusharli nell'array
+    // finchè la length di bombsArray non è 16 devo creare numeri casuali
+    // devo pushare nell'array ogni numero casuale che non sia già presente 
+
+    while (bombsArray.length < 16) {
+        // genera un numero casuale in base alla size della griglia 
+        const randomNumber = Math.floor(Math.random() * (size ** 2))
+        console.log(randomNumber);
+        bombsArray.push(randomNumber)
+    }
+
+    console.log(bombsArray);
+}
+
+
+
+
+  
