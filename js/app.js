@@ -4,15 +4,23 @@
 const playButtonDOMElement = document.getElementById('play__button')
 // console.log(playButtonDOMElement);
 
+// GAME FUNCTIONING
+
 playButtonDOMElement.addEventListener('click', function() {
-    // recuperare il container 
-    const gridContainerDOMElement = document.querySelector('.grid__container')
-    // console.log(gridContainerDOMElement);
 
-    // RIMUOVERE EVENTUALI GRIGLIE PRECEDENTI PER EVITARE DI GENERARE DUE GRIGLIE UNA SOTTO L'ALTRA
-    gridContainerDOMElement.innerHTML = ''
-    playButtonDOMElement.innerHTML = 'Restart'
+    // funzione che restituisce la size 
+    const size = sizeSelector()
 
+    // funzione che genera la griglia e le celle 
+    generateGrid(size)
+
+    // generare l'array delle bombe 
+    generateBombsArray(size)
+})
+
+// FUNCTION SIZE SELECTOR
+
+function sizeSelector() {
     let size = 10;
 
     // prendi il select 
@@ -28,6 +36,21 @@ playButtonDOMElement.addEventListener('click', function() {
     } else {
         size = 7
     }
+    // console.log(size)
+    return size
+}
+
+
+// FUNCTION GENERA GRIGLIA 
+
+function generateGrid(size) {
+    // recuperare il container 
+    const gridContainerDOMElement = document.querySelector('.grid__container')
+    // console.log(gridContainerDOMElement);
+
+    // rimuovere eventuali griglie precedenti
+    gridContainerDOMElement.innerHTML = ''
+    playButtonDOMElement.innerHTML = 'Restart'
 
     const numberOfCells = size ** 2;
 
@@ -43,9 +66,7 @@ playButtonDOMElement.addEventListener('click', function() {
         gridContainerDOMElement.classList.add('grid__easy')
     }
 
-    // generare l'array delle bombe 
-    generateBombsArray(size)
-
+    
     // generare le celle 
     for (let i = 0; i < numberOfCells; i++) {
         // segnare il numero delle celle
@@ -54,22 +75,21 @@ playButtonDOMElement.addEventListener('click', function() {
         // aggiungere alle celle create la classe cell e il numero della cella 
         cellsDOMELement.className = 'cell'
         cellsDOMELement.innerHTML = cellNumber
-
-
+        
+        
         // aggiungere le celle all'html
         gridContainerDOMElement.append(cellsDOMELement)
         // console.log(cellsDOMELement);
-
+        
         // aggiungere/rimuovere la classe bg__blue al click sulla cella 
         cellsDOMELement.addEventListener('click', function(){
             this.classList.toggle('bg__blue')
             console.log(cellNumber);
         })
     }
-})
+}
 
-// Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
-// Attenzione: nella stessa cella può essere posizionata al massimo una bomba, perciò nell’array delle bombe non potranno esserci due numeri uguali.
+// FUNCTION GENERA ARRAY BOMBE
 
 function generateBombsArray(size) {
     // creare array bombe da returnare
@@ -100,8 +120,7 @@ function generateBombsArray(size) {
             bombsArray.push(randomNumber)
         }
     }
-
-    console.log(bombsArray);
+    // console.log(bombsArray);
     return bombsArray
 }
 
