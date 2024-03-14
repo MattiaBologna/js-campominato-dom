@@ -11,11 +11,53 @@ playButtonDOMElement.addEventListener('click', function() {
     // funzione che restituisce la size 
     const size = sizeSelector()
 
-    // funzione che genera la griglia e le celle 
-    generateGrid(size)
+     // recuperare il container 
+     const gridContainerDOMElement = document.querySelector('.grid__container')
+     // console.log(gridContainerDOMElement);
+ 
+     // rimuovere eventuali griglie precedenti
+     gridContainerDOMElement.innerHTML = ''
+     playButtonDOMElement.innerHTML = 'Restart'
+ 
+     const numberOfCells = size ** 2;
+ 
+     // aggiungere la classe relativa alla difficoltà corrente per scegliere quante colonne avere
+     if (size === 10) {
+         gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
+         gridContainerDOMElement.classList.add('grid__hard')
+     } else if (size === 9) {
+         gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
+         gridContainerDOMElement.classList.add('grid__normal')
+     } else if (size === 7) {
+         gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
+         gridContainerDOMElement.classList.add('grid__easy')
+     }
+ 
+     
+     // generare le celle 
+     for (let i = 0; i < numberOfCells; i++) {
+         // segnare il numero delle celle
+         const cellNumber = i + 1 
+         const cellsDOMELement = document.createElement('div')
+         // aggiungere alle celle create la classe cell e il numero della cella 
+         cellsDOMELement.className = 'cell'
+         cellsDOMELement.innerHTML = cellNumber
+         
+         
+         // aggiungere le celle all'html
+         gridContainerDOMElement.append(cellsDOMELement)
+         // console.log(cellsDOMELement);
+         
+         // aggiungere/rimuovere la classe bg__blue al click sulla cella 
+         cellsDOMELement.addEventListener('click', function(){
+             this.classList.toggle('bg__blue')
+             console.log(cellNumber);
+         })
+     }
 
     // generare l'array delle bombe 
     generateBombsArray(size)
+
 })
 
 // FUNCTION SIZE SELECTOR
@@ -40,54 +82,6 @@ function sizeSelector() {
     return size
 }
 
-
-// FUNCTION GENERA GRIGLIA 
-
-function generateGrid(size) {
-    // recuperare il container 
-    const gridContainerDOMElement = document.querySelector('.grid__container')
-    // console.log(gridContainerDOMElement);
-
-    // rimuovere eventuali griglie precedenti
-    gridContainerDOMElement.innerHTML = ''
-    playButtonDOMElement.innerHTML = 'Restart'
-
-    const numberOfCells = size ** 2;
-
-    // aggiungere la classe relativa alla difficoltà corrente per scegliere quante colonne avere
-    if (size === 10) {
-        gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
-        gridContainerDOMElement.classList.add('grid__hard')
-    } else if (size === 9) {
-        gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
-        gridContainerDOMElement.classList.add('grid__normal')
-    } else if (size === 7) {
-        gridContainerDOMElement.classList.remove('grid__hard', 'grid__normal', 'grid__easy')
-        gridContainerDOMElement.classList.add('grid__easy')
-    }
-
-    
-    // generare le celle 
-    for (let i = 0; i < numberOfCells; i++) {
-        // segnare il numero delle celle
-        const cellNumber = i + 1 
-        const cellsDOMELement = document.createElement('div')
-        // aggiungere alle celle create la classe cell e il numero della cella 
-        cellsDOMELement.className = 'cell'
-        cellsDOMELement.innerHTML = cellNumber
-        
-        
-        // aggiungere le celle all'html
-        gridContainerDOMElement.append(cellsDOMELement)
-        // console.log(cellsDOMELement);
-        
-        // aggiungere/rimuovere la classe bg__blue al click sulla cella 
-        cellsDOMELement.addEventListener('click', function(){
-            this.classList.toggle('bg__blue')
-            console.log(cellNumber);
-        })
-    }
-}
 
 // FUNCTION GENERA ARRAY BOMBE
 
@@ -125,6 +119,8 @@ function generateBombsArray(size) {
 }
 
 
-
+// In seguito l’utente clicca su una cella:
+// se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso.
+// Altrimenti la cella cliccata si colora di azzurro e l’utente può continuare a cliccare sulle altre celle.
 
   
