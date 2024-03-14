@@ -43,6 +43,9 @@ playButtonDOMElement.addEventListener('click', function() {
         gridContainerDOMElement.classList.add('grid__easy')
     }
 
+    // generare l'array delle bombe 
+    generateBombsArray(size)
+
     // generare le celle 
     for (let i = 0; i < numberOfCells; i++) {
         // segnare il numero delle celle
@@ -68,8 +71,6 @@ playButtonDOMElement.addEventListener('click', function() {
 // Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 // Attenzione: nella stessa cella può essere posizionata al massimo una bomba, perciò nell’array delle bombe non potranno esserci due numeri uguali.
 
-const bombsArray = generateBombsArray(8)
-
 function generateBombsArray(size) {
     // creare array bombe da returnare
     let bombsArray = [];
@@ -80,12 +81,28 @@ function generateBombsArray(size) {
 
     while (bombsArray.length < 16) {
         // genera un numero casuale in base alla size della griglia 
-        const randomNumber = Math.floor(Math.random() * (size ** 2))
-        console.log(randomNumber);
-        bombsArray.push(randomNumber)
+        const randomNumber = Math.floor(Math.random() * (size ** 2) + 1)
+        // console.log(randomNumber);
+
+        // pushare il numero nell'array solo se non è già presente 
+        let isNumInArray = false
+        
+        // per ogni elemento di bombsArray 
+        for (let i = 0; i < bombsArray.length; i++) {
+            // Se randomNumber è uguale ad almeno un elemento di bombsArray set isNumInArray = true
+            if (randomNumber === bombsArray[i]) {
+                isNumInArray = true
+            }
+        }
+        // console.log(isNumInArray);
+        // se non c'è il numero nell'array pushalo in bombsArray
+        if (!isNumInArray) {
+            bombsArray.push(randomNumber)
+        }
     }
 
     console.log(bombsArray);
+    return bombsArray
 }
 
 
