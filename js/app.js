@@ -46,7 +46,7 @@ playButtonDOMElement.addEventListener('click', function() {
         const cellNumber = i + 1 
         const cellsDOMELement = document.createElement('div')
         // aggiungere alle celle create la classe cell e il numero della cella 
-        cellsDOMELement.className = 'cell'
+        cellsDOMELement.className = 'cell ' + `cell${cellNumber}`
         cellsDOMELement.innerHTML = cellNumber
         
         
@@ -62,8 +62,14 @@ playButtonDOMElement.addEventListener('click', function() {
             if (isBomb) {
                 // se la cella è una bomba, colorala di rosso e mostra l'alert con i punti
                 this.classList.add('bg__red')
-                bombEndGame(points)
-                showBombs(cellNumber, bombsArray)
+
+                // sconfitta
+                alert(`Hai perso! Hai fatto ${points} punti`)
+
+                // mostra tutte le bombe alla sconfitta
+                showBombs(bombsArray, numberOfCells)
+                
+                
             } else {
                 // se la cella non è una bomba (e non è stata già cliccata) colorala di blu e aggiungi un punto 
                 if (this.classList.contains('bg__blue')) {
@@ -71,11 +77,19 @@ playButtonDOMElement.addEventListener('click', function() {
                 } else {
                     this.classList.add('bg__blue')
                     points += 1
-                    if (points === (size ** 2) - 16) {
-                        alert('Hai vinto');
-                    }
+                    // if (points === (size ** 2) - 16) {
+                    //     alert('Hai vinto');
+                    // }
                 }
             }
+
+            // controllare se hai vinto 
+            if (points === (size ** 2) - 16) {
+                alert('Hai vinto!')
+                showBombs(bombsArray, numberOfCells)
+            }
+
+             
             
         })
     }
@@ -172,20 +186,24 @@ function checkIfBomb(cellNumber, bombsArray) {
 }
 
 
-// FUNCTION END GAME 
+// FUNCTION SHOW BOMBS 
 
-function bombEndGame(points) {
-    alert(`Hai perso! Hai fatto ${points} punti`)
-}
+function showBombs(bombsArray, numberOfCells) {
+    
+    // per ogni elemento dell'array devo aggiungere la classe bg__red alla cella corrispondente
+    for (let i = 0; i < bombsArray.length; i++) {
+        console.log(bombsArray[i]);
+        // prendere la cella corrispondente 
+        const currentBombCell = document.querySelector(`.cell${bombsArray[i]}`)
+        // aggiungere la classe 
+        currentBombCell.classList.add('bg__red')
+    }
 
-// FUNCTION SHOW BOMBS
-
-function showBombs(cellNumber, bombsArray) {
-
-    // for (let i = 0; i < bombsArray.length; i++) {
-    //     if (cellNumber === bombsArray[i]) {
-    //         cellsDOMELement.classList.add('bg__red')
-    //     }
-    // }
-   
+    // fai in modo che le celle non siano più cliccabili 
+    const allCells = document.querySelectorAll('.cell') 
+    
+    for (let i = 0; i < allCells.length; i++) {
+        const currentCell = allCells[i]
+        currentCell.style.pointerEvents = 'none'
+    }
 }
